@@ -25,6 +25,9 @@
       </el-form-item>
       <el-button type="primary" @click="findPageDispOrd()">查询</el-button>
       <el-button type="primary" @click="resetData()">重置</el-button>
+      <el-button type="primary" @click="exportExcel()">导出<i class="el-icon-download el-icon--right"></i></el-button>
+      <el-button type="primary" @click="excelDialogVisible=true">导入<i class="el-icon-upload el-icon--right"></i>
+      </el-button>
     </el-form>
     <!-- 列表 -->
     <el-table :data="dispOrdList" border fit highlight-current-row @selection-change="handleSelectionChange">
@@ -138,7 +141,22 @@
         </el-row>
       </el-form>
     </el-dialog>
-
+    <!-- 导入窗口对话框 -->
+    <el-dialog title="导入Excel" :visible.sync="excelDialogVisible">
+      <el-upload
+        ref="upload"
+        name="file"
+        :action="this.BASE_API + '/pms/dispord/importEasyExcel'"
+        :on-success="handleSuccess"
+        :on-error="handleError"
+        :limit="1"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
+        <el-button :disabled="importBtnDisabled" style="margin-left: 10px;" size="small" type="success"
+                   @click="importExcel()">上传到服务器
+        </el-button>
+      </el-upload>
+    </el-dialog>
   </div>
 </template>
 
@@ -162,7 +180,10 @@
           priority: '',
           specType: '',
           orderDesc: ''
-        }
+        },
+        BASE_API: process.env.VUE_APP_BASE_API, // ## 接口API地址
+        excelDialogVisible: false, // ## 导入Excel窗口, false为关闭
+        importBtnDisabled: false // ## 按钮是否禁用,false为不禁用
       }
     },
     created() { //在页面未被渲染之前执行的
@@ -241,6 +262,35 @@
             type: 'info',
             message: '已取消删除'
           })
+        })
+      },
+      exportExcel() { // 导出 Excel
+        document.location.href = this.BASE_API + '/pms/dispord/exportEasyExcel'
+      },
+      importExcel() { // 导入 Excel
+        // 按钮禁用
+        this.importBtnDisabled = true
+        // 提交
+        this.$refs.upload.submit()
+      },
+      handleSuccess() { // 导入成功后执行的方法
+        // 关闭对话框
+        this.excelDialogVisible=false
+        // 消息提示
+        this.$message({
+          message:'导入成功!',
+          type:'success'
+        })
+        // 解除按钮禁用
+        this.importBtnDisabled=false
+        // 重新查询数据
+        this.findPageDispOrd()
+      },
+      handleError() { //导入失败后执行的方法
+        // 消息提示
+        this.$message({
+          message:'导入失败!',
+          type:'error'
         })
       }
     }
