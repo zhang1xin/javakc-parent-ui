@@ -146,7 +146,7 @@
       <el-upload
         ref="upload"
         name="file"
-        :action="this.BASE_API + '/pms/dispord/importEasyExcel'"
+        :action="this.BASE_API + '/pms/dispord/importExcel'"
         :on-success="handleSuccess"
         :on-error="handleError"
         :limit="1"
@@ -265,7 +265,7 @@
         })
       },
       exportExcel() { // 导出 Excel
-        document.location.href = this.BASE_API + '/pms/dispord/exportEasyExcel'
+        document.location.href = this.BASE_API + '/pms/dispord/exportExcel'
       },
       importExcel() { // 导入 Excel
         // 按钮禁用
