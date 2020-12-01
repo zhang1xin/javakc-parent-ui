@@ -55,128 +55,81 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '/pms/dispord',
+    path: '/pms',
     component: Layout,
-    redirect: '/pms/dispord',
-    name: 'DispOrd', // ## 每个路由name不能相同
-    meta: { title: '调度指令库管理', icon: 'example' },
-    alwaysShow: true,
-    children: [
-      {
-        path: 'list',
-        name: 'PmsDispOrdList',
-        component: () => import('@/views/pms/dispord/list'),
-        meta: { title: '调度指令库列表', icon: 'table' }
-      },
-      {
-        path: 'update/:id', // ## :id 相当于占位符,要传参数
-        name: 'PmsDispOrdUpdate',
-        component: () => import('@/views/pms/dispord/update'),
-        meta: { title: '修改调度指令库', noCache: true },
-        hidden: true
-      }
-    ]
-  },
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
+    name: 'pms',
     meta: {
-      title: 'Nested',
-      icon: 'nested'
+      title: '生产管理系统'
     },
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
+        path: '/proddisp',
+        component: () => import('@/views/pms/proddisp'), // Parent router-view
+        name: 'proddisp',
+        meta: { title: '生产调度' },
         children: [
           {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
+            path: '/dispordman',
+            component: () => import('@/views/pms/proddisp/dispordman'),
+            name: 'dispordman',
+            meta: { title: '调度指令管理' },
+            alwaysShow: true,
             children: [
               {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
+                path: '/dispord/list',
+                name: 'PmsDispOrdList',
+                component: () => import('@/views/pms/proddisp/dispordman/dispord/list'),
+                meta: { title: '调度指令库管理', icon: 'table' }
               },
               {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
+                path: '/dispordrls/list',
+                name: 'PmsDispOrdRlsList',
+                component: () => import('@/views/pms/proddisp/dispordman/dispordrls/list'),
+                meta: { title: '调度指令管理', icon: 'table' }
+              },
+              {
+                path: '/dispord/update/:id', // ## :id 相当于占位符,要传参数
+                name: 'PmsDispOrdUpdate',
+                component: () => import('@/views/pms/proddisp/dispordman/dispord/update'),
+                meta: { title: '编辑调度指令库', noCache: true },
+                hidden: true
               }
             ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
           }
         ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: { title: 'menu2' }
       }
     ]
   },
-
   {
-    path: 'external-link',
+    path: '/mes',
     component: Layout,
+    name: 'mes',
+    meta: {
+      title: '生产执行系统'
+    },
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'proddisp',
+        component: () => import('@/views/mes/proddisp'), // Parent router-view
+        name: 'mproddisp',
+        meta: { title: '生产调度' },
+        children: [
+          {
+            path: 'dispordman',
+            component: () => import('@/views/mes/proddisp/dispordman'),
+            name: 'mdispordman',
+            meta: { title: '调度指令管理' },
+            alwaysShow: true,
+            children: [
+              {
+                path: 'list',
+                name: 'MesDispOrdRlsList',
+                component: () => import('@/views/mes/proddisp/dispordman/dispordrls/list'),
+                meta: { title: '煤矿调度指令管理', icon: 'table' }
+              }
+            ]
+          }
+        ]
       }
     ]
   },
